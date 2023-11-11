@@ -1,0 +1,80 @@
+// 全局变量
+//curd普通搜索表单间距
+$curd-query-common-form-margin: 0 8px;
+//curd普通搜索表单宽度
+$curd-query-common-form-width: 300px;
+
+//通用字体颜色
+$text-success: #67c23a;
+$text-danger: #F56C6C;
+$text-warning: #E6A23C;
+$text-primary: #409EFF;
+$text-info: #909399;
+
+//流程图
+$node-wrap-padding: 15px;
+
+$auto-node-border-radius: 0 30px 0 0;
+$primary-auto-node-background: #2097f6;
+$primary-auto-node-second-background: #86c9fd;
+
+$audit-node-border-color: #5452f6;
+$audit-node-dot-color: #eeeeff;
+$audit-node-background-color: #ffffff;
+$audit-node-border-radius: 10px;
+$audit-node-second-background: #aca9f1;
+
+$hook-node-border-radius: 8px;
+$hook-node-text-color: #65bf73;
+$hook-node-background: #e5fde8;
+$hook-node-second-background: #93c69b;
+
+$condition-node-border-radius: 10px;
+$condition-node-text-color: #2097f6;
+$condition-node-background: #e7f4ff;
+$condition-node-second-background: #83c4f8;
+
+@mixin border-background-primary() {
+    background-color: #ecf5ff;
+    border-color: #d9ecff;
+}
+
+@mixin border-background-danger() {
+    background-color: #fef0f0;
+    border-color: #fde2e2;
+}
+
+@mixin transition($timer: .2s) {
+    transition: all $timer;
+}
+
+//表格工具按钮样式
+@mixin toolButton() {
+    .tool-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 2px;
+        border-width: 1px;
+        font-size: 12px;
+        height: 32px;
+        padding: 0;
+        margin-left: 8px;
+        width: 32px;
+        position: relative;
+        border-radius: 5px;
+        background-color: #fff;
+        border-color: #c0c6cc;
+        border-style: solid;
+        cursor: pointer;
+        transition: all .2s;
+
+        &:hover {
+            background-color: #f7f9fa;
+            border-color: #c0c6cc;
+            color: #333;
+            text-decoration: none;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, .08), 0 2px 4px 0 rgba(0, 0, 0, .16);;
+        }
+    }
+}

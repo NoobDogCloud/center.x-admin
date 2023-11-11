@@ -1,0 +1,27 @@
+export default {
+    title: '窗口功能',
+    icon: 'ri:window-2-line',
+    children: [
+        {
+            title: '打开新窗口',
+            windowName: 'WindowExampleAdd'
+        },
+        {
+            title: '关闭窗口',
+            windowName: 'WindowExampleRemove'
+        },
+        {
+            title: '窗口最大化',
+            windowName: 'WindowExampleMaximize'
+        },
+        {
+            title: '无标题窗口',
+            windowName: 'WindowExampleNoTitle',
+            showTitle: false
+        },
+        {
+            title: '带参窗口',
+            windowName: 'WindowExampleParams'
+        }
+    ]
+}

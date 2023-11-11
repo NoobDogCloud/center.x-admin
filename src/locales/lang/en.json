@@ -1,0 +1,35 @@
+{
+    "app": {
+        "account": "account",
+        "captcha": "captcha",
+        "check": "Submit",
+        "goLogin": "go login",
+        "login": "Login",
+        "logout": "Logout",
+        "newPassword": "new password",
+        "password": "password",
+        "profile": "Profile",
+        "sendCaptcha": "send captcha",
+        "search": {
+            "input": "Search page, support title, URL fuzzy query",
+            "alt_s": "Wake up search panel",
+            "up_down": "Switch search results",
+            "enter": "Visit page",
+            "esc": "Exit"
+        }
+    },
+    "window": {
+        "reload": "Reload",
+        "remove": "Close",
+        "maximize": "Maximize",
+        "focus": "Focus",
+        "focusPrev": "Focus Previous Window",
+        "focusNext": "Focus Next Window",
+        "removeOtherSide": "Close Otherside Window",
+        "removeLeftSide": "Close Leftside Window",
+        "removeRightSide": "Close Rightside Window"
+    },
+    "route": {
+        "login": "Login"
+    }
+}

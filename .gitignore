@@ -1,0 +1,10 @@
+node_modules
+.DS_Store
+.husky
+.idea
+dist*
+dist-ssr
+*.local
+src/assets/sprites/*.*
+.npmrc
+pnpm-lock.yaml
