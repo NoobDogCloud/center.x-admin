@@ -1,0 +1,13 @@
+version: '3.1'
+
+services:
+    gfw-master-frontend:
+        image: harbor.putao282.com:2443/library/gfw_master_frontend:latest
+        restart: always
+        ports:
+            - 0.0.0.0:810:80
+        volumes:
+            - /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime
+        environment:
+            - NGINX_HOST=0.0.0.0
+            - NGINX_PORT=80

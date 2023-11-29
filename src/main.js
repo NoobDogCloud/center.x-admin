@@ -128,16 +128,17 @@ const err_group = {
  * 12.12.12.100:31328
  */
 InitGscApplication({
-        appID: '0',
-        appKey: 'grapeSoft@',
-        mode: 'direct',
-        baseUrl: 'http://127.0.0.1:805'
-        // baseUrl: 'http://12.12.12.170:805'
-        // baseUrl: 'http://192.168.50.153:805'
-        // baseUrl: 'http://101.200.218.142:50805'
-    },
-    () => storage.local.get('GlobalSession') ? JSON.parse(storage.local.get('GlobalSession')) : {},
-    err_group
+    appID: '0',
+    appKey: 'grapeSoft@',
+    mode: 'direct',
+    baseUrl: import.meta.env.VITE_APP_API_ENDPOINT ?? 'http://127.0.0.1:805'
+    // baseUrl: 'http://127.0.0.1:805'
+    // baseUrl: 'http://12.12.12.170:805'
+    // baseUrl: 'http://192.168.50.153:805'
+    // baseUrl: 'http://101.200.218.142:50805'
+},
+() => storage.local.get('GlobalSession') ? JSON.parse(storage.local.get('GlobalSession')) : {},
+err_group
 ).then(() => {}).catch(error => {})
 
 app.mount('#app')
