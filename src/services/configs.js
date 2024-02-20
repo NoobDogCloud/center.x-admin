@@ -37,6 +37,24 @@ export const ConfigTypeMap = [
     }
 ]
 
+export const getConfigTypeText = v => {
+    const item = ConfigTypeMap.find(item => item.key === v)
+    return item ? item.name : '不支持分类'
+}
+
+// 中间件类型映射
+export const middlewareTypeMap = {
+    'mongodb': 'db',
+    'mysql': 'db',
+    'h2': 'db',
+    'oracle': 'db',
+    'redis': 'cache',
+    'pulsar': 'mq',
+    'rabbitmq': 'mq',
+    'kafka': 'mq',
+    'activemq': 'mq'
+}
+
 export default ServiceApi.New({
     name: 'system',
     model: 'Configs',
@@ -50,6 +68,7 @@ export default ServiceApi.New({
         }
     },
     pullHook: {
+        /*
         type: v => {
             for (const item of ConfigTypeMap) {
                 if (item.key === String(v)) {
@@ -58,9 +77,10 @@ export default ServiceApi.New({
             }
             return `不支持分类${v}`
         },
+        */
         config: v => {
             // json 转 gsc-json
-            const _v = v || "{}"
+            const _v = v || '{}'
             return GscEncrypt.decodeJson(_v)
             // return JSON.parse(v)
         }

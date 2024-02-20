@@ -32,8 +32,7 @@ export const AppPublishOptions = [
         key: 'node-service',
         value: 'node-service',
         label: '服务集群'
-    }
-    ,
+    },
     {
         key: 'no-publish',
         value: 'no-publish',
@@ -41,7 +40,7 @@ export const AppPublishOptions = [
     }
 ]
 
-export function getAppPublishText (v) {
+export function getAppPublishText(v) {
     const item = AppPublishOptions.find(item => item.value === v)
     return item ? item.label : ''
 }

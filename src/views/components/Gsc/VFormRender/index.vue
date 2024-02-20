@@ -3,12 +3,12 @@
         ref="vFormRef" :form-data="renderOption.formData"
         :form-json="renderOption.formJson" :option-data="renderOption.optionData"
     >
-        <slot/>
+        <slot />
     </v-form-render>
 </template>
 
 <script setup>
-import {reactive, ref, toRaw, watch} from 'vue'
+import { reactive, ref, toRaw, watch } from 'vue'
 
 const props = defineProps({
     template: {

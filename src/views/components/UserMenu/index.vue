@@ -129,7 +129,6 @@ const fileLoading = ref(false)
 const uploader = ref(null)
 
 function onFileChange (file, files) {
-    debugger
     fileLoading.value = true
     const fileClient = RpcClient.New(config.framework)
     fileClient.setPath('GfwSystem', 'importBackup')

@@ -1,11 +1,11 @@
 import { useSettingsOutsideStore } from '@/store/modules/settings'
 
-import { createI18n } from 'vue-i18n'
 import messages from '@intlify/vite-plugin-vue-i18n/messages'
 
-import elementLocaleZhCN from 'element-plus/lib/locale/lang/zh-cn'
-import elementLocaleZhTW from 'element-plus/lib/locale/lang/zh-tw'
-import elementLocaleEn from 'element-plus/lib/locale/lang/en'
+import elementLocaleZhCN from 'element-plus/es/locale/lang/zh-cn'
+import elementLocaleZhTW from 'element-plus/es/locale/lang/zh-tw'
+import elementLocaleEn from 'element-plus/es/locale/lang/en'
+import { createI18n } from 'vue-i18n'
 
 function useI18n(app) {
     const settingsOutsideStore = useSettingsOutsideStore()
@@ -18,6 +18,7 @@ function useI18n(app) {
     }
     const i18n = createI18n({
         legacy: false,
+        globalInjection: true,
         locale: settingsOutsideStore.app.defaultLang,
         flatJson: true,
         fallbackLocale: 'zh-cn',

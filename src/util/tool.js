@@ -1,4 +1,4 @@
-//表格工具
+// 表格工具
 
 /**
  * 时间格式化
@@ -37,9 +37,11 @@ export const textOverflow = (value, len) => {
 
 export const dictionary = (value, dictionary) => {
     for (let i = 0; i < dictionary.length; i++) {
-        if (dictionary[i].key == value || dictionary[i].id == value) {
+        if (dictionary[i].key === value || dictionary[i].id === value) {
             return dictionary[i].label || dictionary[i].name
         }
     }
     return value
 }
+
+export const stringCompression = str => str.replace(/[\r\n]+/ig, '').replace(/\s+/g, ' ')

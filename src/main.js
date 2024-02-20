@@ -38,6 +38,7 @@ app.use(piniaStore)
 app.use(router)
 
 useI18n(app)
+
 app.use(ElementPlus)
 
 app.use(ContextMenu)

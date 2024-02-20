@@ -44,8 +44,10 @@
             <slot name="query-form-complete" />
         </div>
         <!-- 表格主体 -->
-        <div class="common-table"
-             :style="{'--marginTop':headerTop}" >
+        <div
+            class="common-table"
+            :style="{'--marginTop':headerTop}"
+        >
             <el-table :data="data" class="list-table">
                 <template v-for="item in fieldList">
                     <el-table-column
@@ -118,9 +120,9 @@ const props = defineProps({
         type: Object
     },
     // top属性
-    headerTop:{
+    headerTop: {
         type: Number,
-        default: '10px'
+        default: 10
     }
 
 })

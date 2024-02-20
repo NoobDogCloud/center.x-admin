@@ -1,32 +1,32 @@
 <template>
     <CommonTable
-        v-on='props.config.events && props.config.events.table' :default-filter='props.config.defaultFilter'
-        ref='tableRef' :control-colum-width='props.config.controlColumWidth || 200'
-        :showFieldFilterNotInConfig='props.config.showFieldFilterNotInConfig' :field-config='props.config.fieldConfig'
-        :loader='props.config.loader' createAble='props.config.createAble'
+        ref="tableRef" :default-filter="props.config.defaultFilter"
+        :control-colum-width="props.config.controlColumWidth || 200" :show-field-filter-not-in-config="props.config.showFieldFilterNotInConfig"
+        :field-config="props.config.fieldConfig" :loader="props.config.loader"
+        create-able="props.config.createAble" v-on="props.config.events && props.config.events.table"
     >
         <!-- 筛选表单 -->
-        <template #query-form-compact='scope'>
-            <slot name='query-form-compact'></slot>
+        <template #query-form-compact="scope">
+            <slot name="query-form-compact" />
         </template>
-        <template #query-form-complete='scope' v-if='$slots["query-form-complete"]'>
-            <slot name='query-form-complete'></slot>
+        <template v-if="$slots[&quot;query-form-complete&quot;]" #query-form-complete="scope">
+            <slot name="query-form-complete" />
         </template>
         <template #create-button>
-            <el-button size='default' v-if='props.config.createAble !== undefined' type='primary' @click='onCreate()'>
+            <el-button v-if="props.config.createAble !== undefined" size="default" type="primary" @click="onCreate()">
                 {{ props.config.createAble !== '' ? props.config.createAble : '新增' }}
             </el-button>
         </template>
-        <template v-for='(idx, slotName) in slotList' #[slotName]='scope'>
-            <slot :name='slotName' :data='scope.data'></slot>
+        <template v-for="(idx, slotName) in slotList" #[slotName]="scope">
+            <slot :name="slotName" :data="scope.data" />
         </template>
         <!-- 控制按钮 -->
-        <template #control-button='scope'>
-            <slot name='control-button' :data='scope.data'></slot>
-            <el-button size='default' type='primary' @click='onEdit(scope.data)' text>编辑</el-button>
-            <el-popconfirm title='确定删除该条数据吗?' @confirm='onDel(scope.data)'>
+        <template #control-button="scope">
+            <slot name="control-button" :data="scope.data" />
+            <el-button size="default" type="primary" text @click="onEdit(scope.data)">编辑</el-button>
+            <el-popconfirm title="确定删除该条数据吗?" @confirm="onDel(scope.data)">
                 <template #reference>
-                    <el-button :loading='removeLoading[scope.data.id]' size='default' type='danger' text>
+                    <el-button :loading="removeLoading[scope.data.id]" size="default" type="danger" text>
                         删除
                     </el-button>
                 </template>
@@ -34,14 +34,14 @@
         </template>
     </CommonTable>
     <CurdForm
-        :loader='props.config.loader'
-        v-on='props.config.events && props.config.events.form'
-        v-if='!hasCustomizeCurdForm'
-        :formTemplateId='props.config.formTemplateId'
-        @submit='onSubmit'
-        ref='curdForm' v-model='curdFormModelProps.visible' :form-data='curdFormModelProps.formData'
-    ></CurdForm>
-    <slot v-if='hasCustomizeCurdForm' name='curd-form'></slot>
+        v-if="!hasCustomizeCurdForm"
+        ref="curdForm"
+        v-model="curdFormModelProps.visible"
+        :loader="props.config.loader"
+        :form-template-id="props.config.formTemplateId"
+        :form-data="curdFormModelProps.formData" v-on="props.config.events && props.config.events.form" @submit="onSubmit"
+    />
+    <slot v-if="hasCustomizeCurdForm" name="curd-form" />
 </template>
 
 <script setup>
@@ -76,10 +76,10 @@ const props = defineProps({
 
 const emit = defineEmits(['onShowForm'])
 const { proxy } = getCurrentInstance()
-//插槽列表
+// 插槽列表
 let slots = useSlots()
 
-//使用者是否使用自定义表单插槽
+// 使用者是否使用自定义表单插槽
 const hasCustomizeCurdForm = ref(!!slots['curd-form'])
 
 /**
@@ -91,22 +91,22 @@ const removeLoading = reactive({})
 /**
  * 表格搜索
  */
-const tableQuery = function (query) {
+const tableQuery = function(query) {
     tableRef.value.querySubmit(query)
 }
 
 // 表格ref对象
 const tableRef = ref(null)
-//curdForm对象
+// curdForm对象
 const curdForm = ref(null)
 
-//curd表单显隐
+// curd表单显隐
 const curdFormVisible = ref(false)
 
-const slotList = computed(function () {
+const slotList = computed(function() {
     let rs = reactive({})
     for (const slotsKey in slots) {
-        //剔除预设插槽
+        // 剔除预设插槽
         if (slotsKey !== 'batch' && slotsKey !== 'table-query-form' && slotsKey !== 'query-form-compact' && slotsKey !== 'control-button' && slotsKey !== 'curd-form') {
             rs[slotsKey] = slots[slotsKey]
         }
@@ -120,7 +120,7 @@ const curdFormModelProps = reactive({
     formData: undefined
 })
 
-function onCreate () {
+function onCreate() {
     curdFormModelProps.formData = undefined
     curdFormModelProps.visible = true
     if (hasCustomizeCurdForm.value) {

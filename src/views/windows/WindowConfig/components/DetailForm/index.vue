@@ -1,30 +1,32 @@
 <template>
-    <div v-loading='data.loading'>
-        <el-form ref='form' :model='data.form' :rules='data.rules' label-suffix=':' label-width='120px'>
-            <el-form-item label='名称' prop='name'>
-                <el-input v-model='data.form.name' placeholder='请输入配置名称(不支持中文)' />
+    <div v-loading="data.loading">
+        <el-form ref="form" :model="data.form" :rules="data.rules" label-suffix=":" label-width="120px">
+            <el-form-item label="名称" prop="name">
+                <el-input v-model="data.form.name" placeholder="请输入配置名称(不支持中文)" />
             </el-form-item>
-            <el-form-item label='说明' prop='desc'>
-                <el-input v-model='data.form.desc' placeholder='请输入配置说明' />
+            <el-form-item label="说明" prop="desc">
+                <el-input v-model="data.form.desc" placeholder="请输入配置说明" />
             </el-form-item>
-            <el-form-item label='配置类型' prop='type'>
-                <el-select v-model='data.form.type' placeholder='请选择' value-key='null' style='width: 100%;'
-                           @change='filterChange'
+            <el-form-item label="配置类型" prop="type">
+                <el-select
+                    v-model="data.form.type" placeholder="请选择" value-key="null" style="width: 100%;"
+                    @change="filterChange"
                 >
-                    <el-option v-for='item in ConfigTypeOptions' :key='item.key' :label='item.name' :value='item.key' />
+                    <el-option v-for="item in ConfigTypeOptions" :key="item.key" :label="item.name" :value="item.key" />
                 </el-select>
             </el-form-item>
-            <el-form-item label='配置模板' prop='templateid'>
-                <TableDataChoice model-width='80%'
-                                 v-model='data.form.templateid'
-                                 placeholder='请选择配置模板'
-                                 :choiceConfig='choiceConfig'
+            <el-form-item label="配置模板" prop="templateid">
+                <TableDataChoice
+                    v-model="data.form.templateid"
+                    model-width="80%"
+                    placeholder="请选择配置模板"
+                    :choice-config="choiceConfig"
                 />
                 <!-- @submit='onTemplateSelected' -->
             </el-form-item>
-            <el-form-item label='配置' v-if=" parseInt(data.form.templateid) > 0">
+            <el-form-item v-if=" parseInt(data.form.templateid) > 0" label="配置">
                 <div>
-                <FormRender ref='formRender' :template='data.content.template' :render-data='data.content.config'></FormRender>
+                    <FormRender ref="formRender" :template="data.content.template" :render-data="data.content.config" />
                 </div>
             </el-form-item>
         </el-form>
@@ -40,7 +42,7 @@ import TableDataChoice from '@/views/components/Gsc/TableDataChoice/index.vue'
 import FormRender from '@/views/components/Gsc/VFormRender/index.vue'
 import configApi, { ConfigTypeMap } from '@/services/configs'
 import templateApi from '@/services/template'
-import {isString} from "lodash";
+import { isString } from 'lodash'
 
 const ConfigTypeOptions = ref(ConfigTypeMap)
 const formRender = ref(null)
@@ -61,7 +63,7 @@ const props = defineProps({
  */
 const data = reactive({
     loading: false,
-    //以获取数据为转义后的,这里需要转换成原始数据
+    // 以获取数据为转义后的,这里需要转换成原始数据
     form: Object.assign({}, toRaw(props.formData), { type: props.formData ? mapConvert.toValue(ConfigTypeMap, props.formData.type) : 'db' }),
     rules: {
         name: [
@@ -80,9 +82,9 @@ const data = reactive({
             }
         ]
     },
-    content:{
+    content: {
         template: {},
-        config:{}
+        config: {}
     }
 })
 // multiple
@@ -99,8 +101,8 @@ const choiceConfig = reactive({
     ]
 })
 
-//类型改变后模板清空,模板筛选条件变更
-const filterChange = (v) => {
+// 类型改变后模板清空,模板筛选条件变更
+const filterChange = v => {
     choiceConfig.filter = { type: v }
     data.form.templateid = ''
     data.form.config = {}
@@ -109,7 +111,7 @@ const filterChange = (v) => {
 }
 
 // 获得配置模板
-const findTemplate = async (id) => {
+const findTemplate = async id => {
     const resp = await templateApi.find('id', id)
     const res = resp.getRecord()
     data.content.template = res.template
@@ -123,31 +125,31 @@ const onTemplateSelected = (arr) => {
 */
 
 // 监视模板id
-watch( ()=> data.form.templateid, async (value, org)=> {
-    if( value === '' || value === undefined || value === null || value === org || parseInt(value) === 0 ){
+watch(() => data.form.templateid, async(value, org) => {
+    if (value === '' || value === undefined || value === null || value === org || parseInt(value) === 0) {
         return
     }
     await findTemplate(value)
-} )
+})
 
 const getConfigValue = () => {
     const v = toRaw(data.form.config)
-    return isString(v) ? JSON.parse(v) : v;
+    return isString(v) ? JSON.parse(v) : v
 }
 
 onMounted(async() => {
-    if( props.formData && props.formData.templateid ) {
+    if (props.formData && props.formData.templateid) {
         await findTemplate(props.formData.templateid)
         data.content.config = getConfigValue()
     }
 })
 
 defineExpose({
-    submit (callback) {
-        if( formRender.value ){
-            formRender.value.getFormData().then( v => {
+    submit(callback) {
+        if (formRender.value) {
+            formRender.value.getFormData().then(v => {
                 data.form.config = toRaw(v)
-                if (data.form.id === '' || data.form.id ===undefined || data.form.id === null) {
+                if (data.form.id === '' || data.form.id === undefined || data.form.id === null) {
                     proxy.$refs.form.validate(async valid => {
                         if (valid) {
                             const inputInfo = data.form

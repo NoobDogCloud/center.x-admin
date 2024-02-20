@@ -1,6 +1,6 @@
 <template>
-    <BasicModelForm :title='title' v-model='myVisible' @submit='onSubmit'>
-        <DetailForm :form-data='formData' ref='form'></DetailForm>
+    <BasicModelForm v-model="myVisible" :title="title" @submit="onSubmit">
+        <DetailForm ref="form" :form-data="formData" />
     </BasicModelForm>
 </template>
 
@@ -19,7 +19,7 @@ const props = defineProps({
     formData: {
         type: Object
     },
-    id:{
+    id: {
         type: [String, Number],
         default: ''
     }
@@ -28,17 +28,17 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue', 'success'])
 
 const myVisible = computed({
-    get: function () {
+    get: function() {
         return props.modelValue
     },
-    set: function (val) {
+    set: function(val) {
         emit('update:modelValue', val)
     }
 })
 
 const title = computed(() => props.id === '' ? '新增系统配置' : '编辑系统配置')
 
-function onSubmit () {
+function onSubmit() {
     // submit() 为组件内部方法
     proxy.$refs.form.submit(() => {
         emit('success')
@@ -46,7 +46,7 @@ function onSubmit () {
     })
 }
 
-function onCancel () {
+function onCancel() {
     myVisible.value = false
 }
 </script>

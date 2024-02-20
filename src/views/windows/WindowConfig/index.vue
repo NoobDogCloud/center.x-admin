@@ -1,30 +1,33 @@
 <template>
-    <Curd ref='curd' :config='curdConfig' @onShowForm='onShowForm'>
+    <Curd ref="curd" :config="curdConfig" @onShowForm="onShowForm">
         <!-- 字段插槽 -->
         <template #query-form-compact>
-            <el-input class='query-form-item' clearable v-model='queryForm.name' placeholder='模板名称'
-                      @clear='curdQuery()'
+            <el-input
+                v-model="queryForm.name" class="query-form-item" clearable placeholder="模板名称"
+                @clear="curdQuery()"
             >
                 <template #append>
-                    <el-button :icon='Search' @click='curdQuery()' />
+                    <el-button :icon="Search" @click="curdQuery()" />
                 </template>
             </el-input>
         </template>
-        <template #config='scope'>
-            <el-button size='default' text type='primary' @click='preview(scope.data)'>查看</el-button>
+        <template #config="scope">
+            <el-button size="default" text type="primary" @click="preview(scope.data)">查看</el-button>
         </template>
         <template #curd-form>
-            <FormModel :id='formModelProps.id' v-model='formModelProps.visible' :form-data='formModelProps.formData'
-                       @success='refreshTableData'
+            <FormModel
+                :id="formModelProps.id" v-model="formModelProps.visible" :form-data="formModelProps.formData"
+                @success="refreshTableData"
             />
         </template>
     </Curd>
-    <BasicModelForm v-model='previewDialogVisible' append-to-body destroy-on-close
-                    title='配置信息'
-                    width='80%'
-                    @submit='onSubmit'
+    <BasicModelForm
+        v-model="previewDialogVisible" append-to-body destroy-on-close
+        title="配置信息"
+        width="80%"
+        @submit="onSubmit"
     >
-        <FormRender ref='formRender' :template='previewDialogTemplate' :render-data='previewDialogData'></FormRender>
+        <FormRender ref="formRender" :template="previewDialogTemplate" :render-data="previewDialogData" />
     </BasicModelForm>
 </template>
 
@@ -35,7 +38,7 @@ import Curd from '@/views/components/Gsc/Curd/index.vue'
 import FormModel from './components/FormModel/index.vue'
 import { getCurrentInstance, reactive, ref } from 'vue'
 import { Search } from '@element-plus/icons-vue'
-import configsApi from '@/services/configs'
+import configsApi, { getConfigTypeText } from '@/services/configs'
 import templateApi from '@/services/template'
 
 const { proxy } = getCurrentInstance()
@@ -61,7 +64,7 @@ const formModelProps = reactive({
 
 const curd = ref(null)
 
-const curdQuery = function () {
+const curdQuery = function() {
     curd.value.tableQuery(queryForm)
 }
 
@@ -76,7 +79,7 @@ const preview = async v => {
 }
 
 // 提交配置编辑
-function onSubmit () {
+function onSubmit() {
     const form = formRender.value
     form.getFormData().then(v => {
         form.validateForm(async valid => {
@@ -104,7 +107,7 @@ function onSubmit () {
     })
 }
 
-const onShowForm = (v) => {
+const onShowForm = v => {
     if (v) {
         formModelProps.formData = v
         formModelProps.id = v.id
@@ -115,11 +118,11 @@ const onShowForm = (v) => {
     formModelProps.visible = true
 }
 
-function refreshTableData () {
+function refreshTableData() {
     curd.value.getTable().refresh()
 }
 
-//Curd配置,详见组件内注释
+// Curd配置,详见组件内注释
 const curdConfig = reactive({
     createAble: '创建配置',
     loader: configsApi,
@@ -127,8 +130,9 @@ const curdConfig = reactive({
     fieldConfig: [
         { label: 'id', key: 'id' },
         { label: '名称', key: 'name' },
+        { label: 'SDK版本', key: 'sdk_id' },
         { label: '说明', key: 'desc' },
-        { label: '类型', key: 'type' },
+        { label: '类型', key: 'type', formatter: getConfigTypeText },
         { label: '配置内容', key: 'config', slot: true, align: 'center' }
     ]
 })

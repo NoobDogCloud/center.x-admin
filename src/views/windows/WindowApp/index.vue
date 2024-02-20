@@ -1,24 +1,27 @@
 <template>
-    <Curd ref='curd' :config='curdConfig' @onShowForm='onShowForm'>
+    <Curd ref="curd" :config="curdConfig" @onShowForm="onShowForm">
         <!-- 字段插槽 -->
         <template #query-form-compact>
-            <el-input class='query-form-item' clearable v-model='queryForm.name' placeholder='应用名称'
-                      @clear='curdQuery()'
+            <el-input
+                v-model="queryForm.name" class="query-form-item" clearable placeholder="应用名称"
+                @clear="curdQuery()"
             >
                 <template #append>
-                    <el-button :icon='Search' @click='curdQuery()' />
+                    <el-button :icon="Search" @click="curdQuery()" />
                 </template>
             </el-input>
         </template>
-        <template #control-button='scope'>
-            <el-button text size='default' type='info' @click='onViewDeploy(scope.data)'>查看服务</el-button>
+        <template #control-button="scope">
+            <el-button text size="default" type="info" @click="onViewDeploy(scope.data)">查看服务</el-button>
         </template>
         <template #curd-form>
-            <FormMode :id='data.formModeProps.id' v-model='data.formModeProps.visible' :mode='data.formMode'
-                      @success='refreshTableData'
+            <FormMode
+                :id="data.formModeProps.id" v-model="data.formModeProps.visible" :mode="data.formMode"
+                @success="refreshTableData"
             />
-            <DeployView v-model='data.formDeployProps.visible' :app-id='data.formDeployProps.id' :mode='data.formMode'
-                        :name='data.formDeployProps.name'
+            <DeployView
+                v-model="data.formDeployProps.visible" :app-id="data.formDeployProps.id" :mode="data.formMode"
+                :name="data.formDeployProps.name"
             />
         </template>
     </Curd>
@@ -59,11 +62,11 @@ const data = ref({
     }
 })
 
-function refreshTableData () {
+function refreshTableData() {
     curd.value.getTable().refresh()
 }
 
-function onViewDeploy (row) {
+function onViewDeploy(row) {
     data.value.formDeployProps.id = row.id
     data.value.formDeployProps.name = row.name
     data.value.formDeployProps.visible = true
@@ -71,11 +74,11 @@ function onViewDeploy (row) {
 
 const curd = ref(null)
 
-const curdQuery = function () {
+const curdQuery = function() {
     curd.value.tableQuery(queryForm)
 }
 
-const onShowForm = (v) => {
+const onShowForm = v => {
     if (v) {
         data.value.formModeProps.id = v.id
         data.value.formModeProps.visible = true
@@ -85,14 +88,14 @@ const onShowForm = (v) => {
     }
 }
 
-//Curd配置,详见组件内注释
+// Curd配置,详见组件内注释
 const curdConfig = reactive({
     createAble: '创建应用',
     controlColumWidth: 300,
     loader: appsApi,
     showFieldFilterNotInConfig: false,
     fieldConfig: [
-        { label: 'id', key: 'id' },
+        { label: 'id', key: 'id', width: 100 },
         { label: '应用名称', key: 'name' },
         { label: '发布模式', key: 'category', formatter: getAppPublishText },
         // { label: '说明', key: 'desc' },

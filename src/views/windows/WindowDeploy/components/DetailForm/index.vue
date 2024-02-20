@@ -102,7 +102,7 @@
             <div class="form-item-box">
                 <p>部署配置</p>
                 <div class="form-item-content">
-                    <ConfigEditor ref="cfgEditor" :config="data.form.config" />
+                    <ConfigEditor ref="cfgEditor" :sdk-id="serviceSdkId" :config="data.form.config" />
                 </div>
             </div>
             <el-form-item label="容器化" prop="container">
@@ -147,6 +147,7 @@ const { proxy } = getCurrentInstance()
 const deployModel = ref(null)
 const cfgEditor = ref(null)
 const proxyServiceEditor = ref(null)
+const serviceSdkId = ref('')
 
 const props = defineProps({
     id: {

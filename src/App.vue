@@ -67,5 +67,6 @@ watch(() => settingsStore.title, () => {
 
 function generateI18nTitle(key, defaultTitle) {
     return !!key && te(key) ? t(key) : defaultTitle
+    // return $t(key) || defaultTitle
 }
 </script>

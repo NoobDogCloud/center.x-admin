@@ -17,7 +17,7 @@ import { computed } from 'vue'
 const props = defineProps({
     title: {
         type: String,
-        default: '123'
+        default: ''
     },
     modelValue: {
         type: Boolean,

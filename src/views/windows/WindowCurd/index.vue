@@ -1,12 +1,13 @@
 <template>
-    <Curd ref='curd' :config='curdConfig' @onShowForm='onShowForm'>
+    <Curd ref="curd" :config="curdConfig" @onShowForm="onShowForm">
         <!-- 字段插槽 -->
         <template #query-form-compact>
-            <el-input class='query-form-item' clearable v-model='queryForm.name' placeholder='模板名称'
-                      @clear='curdQuery()'
+            <el-input
+                v-model="queryForm.name" class="query-form-item" clearable placeholder="模板名称"
+                @clear="curdQuery()"
             >
                 <template #append>
-                    <el-button :icon='Search' @click='curdQuery()' />
+                    <el-button :icon="Search" @click="curdQuery()" />
                 </template>
             </el-input>
         </template>
@@ -20,9 +21,7 @@
         <!--                </el-form-item>-->
         <!--            </el-form>-->
         <!--        </template>-->
-        <template #curd-form>
-
-        </template>
+        <template #curd-form />
     </Curd>
 </template>
 
@@ -39,19 +38,19 @@ const queryForm = reactive({
 
 const curd = ref(null)
 
-const curdQuery = function () {
+const curdQuery = function() {
     curd.value.tableQuery(queryForm)
 }
 
-const onTableLoad = (v) => {
+const onTableLoad = v => {
 
 }
 
 const onShowForm = () => {
-    debugger;
+    debugger
 }
 
-//Curd配置,详见组件内注释
+// Curd配置,详见组件内注释
 const curdConfig = reactive({
     formTemplateId: 5,
     createAble: '创建配置',

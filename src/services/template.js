@@ -1,6 +1,7 @@
 import ServiceApi from 'gsc-frontend-sdk/base/serviceApi'
 import { QueryOptionBuilder } from 'gsc-frontend-sdk/gfw/rpc/queryOptionBuilder'
-import {isObject, isString} from "lodash";
+import { isObject, isString } from 'lodash'
+import { ConfigTypeMap } from '@/services/configs'
 
 export default ServiceApi.New({
     name: 'system',

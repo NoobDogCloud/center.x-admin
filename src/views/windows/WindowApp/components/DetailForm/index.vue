@@ -96,12 +96,6 @@
                 </el-select>
             </el-form-item>
             <div class="form-item-box">
-                <p>配置</p>
-                <div class="form-item-content">
-                    <ConfigEditor ref="cfgEditor" :config="OneProps" />
-                </div>
-            </div>
-            <div class="form-item-box">
                 <p>应用角色</p>
                 <div class="form-item-content" style="padding-right: 0">
                     <RolesEditor ref="rolesEditor" v-model="data.form.roles" :appid="id" />
@@ -229,13 +223,13 @@ const data = reactive({
     stateModel: getStateModel()
 })
 
-const cfgInfo = reactive({})
-const OneProps = computed(() => {
-    _.mapKeys(data.form.config, (v, k) => {
-        cfgInfo[k] = v
-    })
-    return cfgInfo
-})
+// const cfgInfo = reactive({})
+// const OneProps = computed(() => {
+//     _.mapKeys(data.form.config, (v, k) => {
+//         cfgInfo[k] = v
+//     })
+//     return cfgInfo
+// })
 
 async function getKubernetesList() {
     const res = await k8sApi.field(['id', 'name']).select()

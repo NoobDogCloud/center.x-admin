@@ -1,11 +1,12 @@
-import {defineConfig, loadEnv} from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 import createVitePlugins from './vite/plugins'
-
-const fs = require('fs')
-const path = require('path')
+import fs from 'fs'
+import path from 'path'
+// const fs = require('fs')
+// const path = require('path')
 
 // https://vitejs.dev/config/
-export default ({mode, command}) => {
+export default ({ mode, command }) => {
     const env = loadEnv(mode, process.cwd())
     // 全局 scss 资源
     const scssResources = []
@@ -55,7 +56,7 @@ export default ({mode, command}) => {
             extensions: ['.js', '.vue', '.json', '.ts'],
             alias: {
                 '@': path.resolve(__dirname, 'src'),
-                'vue-i18n': 'vue-i18n/index',
+                // 'vue-i18n': 'vue-i18n/index',
                 '@antv/x6': path.resolve('node_modules/@antv/x6/dist/x6.js'),
                 '@antv/x6-vue-shape': path.resolve('node_modules/@antv/x6-vue-shape/lib/index.js')
             }

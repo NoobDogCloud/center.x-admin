@@ -17,6 +17,16 @@
                     />
                 </el-select>
             </el-form-item>
+            <el-form-item label="SDK版本" prop="sdk_id">
+                <el-select v-model="data.form.sdk_id" placeholder="请选择" value-key="data">
+                    <el-option
+                        v-for="item in SDKVersionOptions"
+                        :key="item.key"
+                        :label="item.label"
+                        :value="item.value"
+                    />
+                </el-select>
+            </el-form-item>
             <el-form-item
                 v-if="data.form.transfer!=='http' && data.form.transfer!=='https'" label="端点接口"
                 prop="mq_config"
@@ -86,7 +96,7 @@
             <div class="form-item-box">
                 <p>部署配置</p>
                 <div class="form-item-content">
-                    <ConfigEditor ref="cfgEditor" :config="data.form.config" />
+                    <ConfigEditor ref="cfgEditor" :sdk-id="data.form.sdk_id" :config="data.form.config" />
                 </div>
             </div>
         </el-form>
@@ -103,6 +113,7 @@ import servicesApi, {
     TransferOptions
 } from '@/services/services'
 import configsApi from '@/services/configs'
+import sdkApi from '@/services/sdk'
 import { QueryBuilder } from 'gsc-frontend-sdk/gfw/rpc/queryBuilder'
 import { ImplDataChecker } from 'gsc-frontend-sdk/gfw/from-checker/dataCheckerImpl'
 import DeployModelFrom from '@/views/components/Gsc/Deploy/DeployModelForm/index.vue'
@@ -119,6 +130,8 @@ const serviceCategoryOptions = ref(
 const serviceKindOptions = ref(
     ServiceKindOptions
 )
+
+const SDKVersionOptions = ref([])
 
 const { proxy } = getCurrentInstance()
 
@@ -179,6 +192,10 @@ const props = defineProps({
         type: String,
         default: 'data'
     },
+    sdk_id: {
+        type: String,
+        default: ''
+    },
     protocol: {
         type: String,
         default: 'TCP',
@@ -199,7 +216,8 @@ const data = reactive({
         port: props.port,
         datamodel: props.datamodel,
         dockerimage: props.dockerimage,
-        protocol: props.protocol
+        protocol: props.protocol,
+        sdk_id: props.sdk_id
     },
     rules: {
         name: [
@@ -218,16 +236,30 @@ const data = reactive({
             }
         ]
     },
-    options:{
-        messageQueue: [],
+    options: {
+        messageQueue: []
     }
 })
+
+const loadSDKVersionArray = async() => {
+    const res = await sdkApi.select()
+    const SDKVersionArray = res.getRecord()
+    // 遍历 SDKVersionArray,生成 SDKVersionOptions
+    SDKVersionOptions.value = SDKVersionArray.map(item => {
+        return {
+            key: item.id,
+            label: item.id,
+            value: item.id
+        }
+    })
+}
 
 onMounted(async() => {
     if (data.form.id) {
         await getInfo()
     }
     await getMessageQueue()
+    await loadSDKVersionArray()
 })
 
 async function getInfo() {
@@ -253,20 +285,32 @@ async function getInfo() {
     } else {
         info.config = {}
     }
+    // data.form.id = info.id
+    // data.form.sdk_id = info.sdk_id
+    // data.form.port = info.port
+    // data.form.name = info.name
+    // data.form.desc = info.desc
+    // data.form.debug = info.debug
+    // data.form.transfer = info.transfer
+    // data.form.category = info.category
+    // data.form.kind = info.kind
+    // data.form.mq_config = info.mq_config
+    // data.form.dockerimage = info.dockerimage
+    // data.form.protocol = info.protocol
+    // data.form.datamodel = info.datamodel
     data.form = _.extend({}, data.form, info)
 }
 
-
-async function getMessageQueue(){
+async function getMessageQueue() {
     const q = QueryBuilder.build().eq('type', 'mq')
     const res = await configsApi.selectAndQuery(q)
     const configArr = res.asJsonArray()
     data.options.messageQueue = []
-    _.forEach(configArr, (config) => {
+    _.forEach(configArr, config => {
         data.options.messageQueue.push({
             key: config.name,
             label: config.name,
-            value: config.name,
+            value: config.name
         })
     })
 }

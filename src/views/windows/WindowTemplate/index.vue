@@ -1,26 +1,28 @@
 <template>
-    <Curd ref='curd' :config='curdConfig' @onShowForm='onShowForm'>
+    <Curd ref="curd" :config="curdConfig" @onShowForm="onShowForm">
         <!-- 字段插槽 -->
         <template #query-form-compact>
-            <el-input class='query-form-item' clearable v-model='queryForm.name' placeholder='模板名称'
-                      @clear='curdQuery()'
+            <el-input
+                v-model="queryForm.name" class="query-form-item" clearable placeholder="模板名称"
+                @clear="curdQuery()"
             >
                 <template #append>
-                    <el-button :icon='Search' @click='curdQuery()' />
+                    <el-button :icon="Search" @click="curdQuery()" />
                 </template>
             </el-input>
         </template>
-        <template #template='scope'>
-            <el-button size='default' text type='primary' @click='preview(scope.data)'>查看</el-button>
+        <template #template="scope">
+            <el-button size="default" text type="primary" @click="preview(scope.data)">查看</el-button>
         </template>
         <template #curd-form>
-            <FormModel v-model='formModelProps.visible' :form-data='formModelProps.formData'
-                       @success='refreshTableData'
+            <FormModel
+                v-model="formModelProps.visible" :form-data="formModelProps.formData"
+                @success="refreshTableData"
             />
         </template>
     </Curd>
-    <el-dialog v-model='previewDialogVisible' append-to-body destroy-on-close title='模板预览' width='80%'>
-        <FormRender :template='previewDialogTemplate'></FormRender>
+    <el-dialog v-model="previewDialogVisible" append-to-body destroy-on-close :title="previewDialogTitle" width="80%">
+        <FormRender :template="previewDialogTemplate" />
     </el-dialog>
 </template>
 
@@ -31,6 +33,7 @@ import FormModel from './FormModel/index.vue'
 import { reactive, ref } from 'vue'
 import { Search } from '@element-plus/icons-vue'
 import templateApi from '@/services/template'
+import { getConfigTypeText } from '@/services/configs'
 
 // 筛选表单值
 const queryForm = reactive({
@@ -40,6 +43,7 @@ const queryForm = reactive({
 // 预览窗口属性
 const previewDialogVisible = ref(false)
 const previewDialogTemplate = ref({})
+const previewDialogTitle = ref('模板预览')
 
 // 表单属性
 const formModelProps = reactive({
@@ -49,11 +53,11 @@ const formModelProps = reactive({
 
 const curd = ref(null)
 
-function refreshTableData () {
+function refreshTableData() {
     curd.value.getTable().refresh()
 }
 
-const curdQuery = function () {
+const curdQuery = function() {
     curd.value.tableQuery(queryForm)
 }
 
@@ -61,9 +65,10 @@ const curdQuery = function () {
 const preview = v => {
     previewDialogVisible.value = true
     previewDialogTemplate.value = v.template
+    previewDialogTitle.value = v.name
 }
 
-const onShowForm = (v) => {
+const onShowForm = v => {
     if (v) {
         formModelProps.formData = v
         formModelProps.visible = true
@@ -73,14 +78,15 @@ const onShowForm = (v) => {
     }
 }
 
-//Curd配置,详见组件内注释
+// Curd配置,详见组件内注释
 const curdConfig = reactive({
     createAble: '创建模板',
     loader: templateApi,
     showFieldFilterNotInConfig: false,
     fieldConfig: [
         { label: '模板名称', key: 'name' },
-        { label: '模板类型', key: 'type' },
+        { label: '模板类型', key: 'type', formatter: getConfigTypeText },
+        { label: 'SDK版本', key: 'sdk_id' },
         { label: '模板配置', key: 'template', slot: true, align: 'center' }
     ]
 })

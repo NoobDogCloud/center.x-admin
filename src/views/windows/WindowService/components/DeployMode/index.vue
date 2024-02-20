@@ -32,7 +32,7 @@
                     <div class="form-item-box">
                         <p>部署配置</p>
                         <div class="form-item-content">
-                            <ConfigEditor ref="cfgEditor" :config="data.payload.config" />
+                            <ConfigEditor ref="cfgEditor" :sdk-id="props.sdkId" :config="data.payload.config" />
                         </div>
                     </div>
                 </div>
@@ -109,6 +109,10 @@ const props = defineProps({
     },
     id: {
         type: [String, Number],
+        default: ''
+    },
+    sdkId: {
+        type: String,
         default: ''
     }
 })
@@ -247,13 +251,18 @@ async function onSubmit() {
             // console.log('编辑模型')
             data.progress.step++
             // 预载服务数据
-            await proxyServiceEditor.value.getServiceList(data.payload.appid, data.id)
+            if(proxyServiceEditor.value){
+                await proxyServiceEditor.value.getServiceList(data.payload.appid, data.id)
+            }
+
             break
         }
         // 配置设置
         case 2:
             data.payload.config = cfgEditor.value.getContent()
-            data.payload.proxy_target = proxyServiceEditor.value.getContent()
+            if(proxyServiceEditor.value){
+                data.payload.proxy_target = proxyServiceEditor.value.getContent()
+            }
             // console.log('设置配置')
             data.progress.step++
 
