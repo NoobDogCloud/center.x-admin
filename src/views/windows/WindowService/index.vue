@@ -115,7 +115,17 @@ function onViewDeploy(row) {
 
 // 检查 sdk 版本,获得对应 sdk 的 xml 内容,生成构造 pom.xml
 function downPom(row) {
-
+    servicesApi.call("downloadPom", row.id).then(res => {
+        if (res.status()) {
+            const blob = new Blob([res.asString()], { type: 'text/xml' })
+            const url = window.URL.createObjectURL(blob)
+            const a = document.createElement('a')
+            a.href = url
+            a.download = 'pom.xml'
+            a.click()
+            window.URL.revokeObjectURL(url)
+        }
+    })
 }
 
 const onShowForm = v => {
