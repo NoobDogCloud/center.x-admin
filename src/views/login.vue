@@ -181,7 +181,6 @@ function handleLogin () {
     proxy.$refs.loginFormRef.validate(valid => {
         if (valid) {
             loading.value = true
-            debugger
             userStore.login(loginForm.value).then((v) => {
                 if (loginForm.value.remember) {
                     storage.local.set('login_account', loginForm.value.account)

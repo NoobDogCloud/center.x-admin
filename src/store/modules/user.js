@@ -36,7 +36,7 @@ export const useUserStore = defineStore(
             account: session.info()?.userid ?? '',
             // token: session.getSID() ?? '',
             token: session.info()?.token ?? '',
-            failure_time: session.info()?.failure_time ?? '',
+            failure_time: session.info()?.failure_times ?? '',
             permissions: []
         }),
         getters: {
