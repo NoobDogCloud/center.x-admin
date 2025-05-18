@@ -101,6 +101,12 @@
                     <RolesEditor ref="rolesEditor" v-model="data.form.roles" :appid="id" />
                 </div>
             </div>
+            <div class="form-item-box">
+                <p>应用配置</p>
+                <div class="form-item-content" style="padding-right: 0">
+                    <ConfigEditor ref="cfgEditor" v-model="data.form.config" :appid="id" />
+                </div>
+            </div>
         </el-form>
     </div>
 </template>
@@ -108,7 +114,7 @@
 <script setup>
 import ConfigEditor from '@/views/components/Gsc/Config/index.vue'
 import RolesEditor from '@/views/components/Gsc/Roles/index.vue'
-import { computed, getCurrentInstance, onMounted, reactive, ref } from 'vue'
+import { getCurrentInstance, onMounted, reactive, ref } from 'vue'
 import appsApi, {AppPublishOptions, SessionTypeOptions} from '@/services/apps'
 import servicesApi from '@/services/services'
 import _ from 'lodash'

@@ -8,7 +8,7 @@
     </div>
 </template>
 
-<script name='ProxyServiceEditor' setup>
+<script setup>
 import { computed, onMounted, reactive } from 'vue'
 import _ from 'lodash'
 import { QueryBuilder } from 'gsc-frontend-sdk/gfw/rpc/queryBuilder'

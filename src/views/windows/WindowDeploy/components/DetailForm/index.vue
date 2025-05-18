@@ -205,7 +205,9 @@ const props = defineProps({
     },
     proxy_target: {
         type: Array,
-        default: []
+        default: () => {
+            return []
+        }
     },
     service_category: {
         type: [String],
@@ -239,7 +241,7 @@ const data = reactive({
             { required: true, message: '请输入部署名称', trigger: 'blur' }
         ]
     },
-    state:{},
+    state: {},
     stateModel: getStateModel(),
     replicaSetSelect: replicaSetNumber()
 })
@@ -289,7 +291,10 @@ defineExpose({
                 if (valid) {
                     // 获得新的配置信息
                     const inputInfo = toRaw(data.form)
-                    inputInfo.proxy_target = toRaw(proxyServiceEditor.value.getContent())
+                    if (proxyServiceEditor.value) {
+                        inputInfo.proxy_target = toRaw(proxyServiceEditor.value.getContent())
+                    }
+
                     inputInfo.datamodel = toRaw(deployModel.value.getContent())
                     inputInfo.config = toRaw(cfgEditor.value.getContent())
                     delete inputInfo.service_category
