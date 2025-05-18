@@ -31,7 +31,7 @@ export const AppPublishOptions = [
     {
         key: 'node-service',
         value: 'node-service',
-        label: '服务集群'
+        label: '服务网格'
     },
     {
         key: 'no-publish',
